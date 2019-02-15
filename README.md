@@ -4,7 +4,7 @@ CSRF protection middleware for [Gin]. This middleware has to be used with [gin-c
 
 Original credit to [tommy351](https://github.com/tommy351/gin-csrf) and [utrack](https://github.com/utrack/gin-csrf)
 
-## What do I make?
+## What did I make?
 follow condition will update csrf token
 1. every ignore methods (ex. "GET","HEAD"...)
 2. token is valid
