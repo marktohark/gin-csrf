@@ -2,7 +2,13 @@
 
 CSRF protection middleware for [Gin]. This middleware has to be used with [gin-contrib/sessions](https://github.com/gin-contrib/sessions).
 
-Original credit to [tommy351](https://github.com/tommy351/gin-csrf), this fork makes it work with gin-gonic contrib sessions.
+Original credit to [tommy351](https://github.com/tommy351/gin-csrf) and [utrack](https://github.com/utrack/gin-csrf)
+
+## What do I make?
+follow condition will update csrf token
+1. every ignore methods (ex. "GET","HEAD"...)
+2. token is valid
+3. session have not csrf salt
 
 ## Installation
 
@@ -23,14 +29,14 @@ import (
 
 func main(){
     r := gin.Default()
-    store := sessions.NewCookieStore([]byte("secret"))
-    r.Use(sessions.Sessions("mysession", store))
+    store := cookie.NewStore([]byte("cookie_secret"))
+    r.Use(sessions.Sessions("session_name_in_cookie", store))
     r.Use(csrf.Middleware(csrf.Options{
-        Secret: "secret123",
-        ErrorFunc: func(c *gin.Context){
-            c.String(400, "CSRF token mismatch")
-			c.Abort()
-        },
+	Secret: "csrf_secret",
+	ErrorFunc: func(c *gin.Context){
+		c.String(400, "CSRF token mismatch")
+		c.Abort()
+	},
     }))
 
     r.GET("/protected", func(c *gin.Context){
