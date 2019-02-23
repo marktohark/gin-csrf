@@ -8,10 +8,10 @@ Original credit to [tommy351](https://github.com/tommy351/gin-csrf) and [utrack]
 following condition will update csrf token
 1. every ignore methods (ex. "GET","HEAD"...)
 2. token is valid
-3. session have not csrf salt
-
-add whitelist Url and blacklist Url
-whitelist is unconditional valid.
+3. session have not csrf salt   
+   
+add whitelist Url and blacklist Url   
+whitelist is unconditional valid.   
 blacklist is skip "IgnoreMethods" condition and mandatory verification.
 
 ## Installation
