@@ -45,6 +45,8 @@ type Options struct {
 	IgnoreMethods []string
 	ErrorFunc     gin.HandlerFunc
 	TokenGetter   func(c *gin.Context) string
+	BlackListUrl []string  // example  => "/xxxxxx"
+	WhiteListUrl []string
 }
 
 func tokenize(secret, salt string) string {
@@ -86,14 +88,24 @@ func Middleware(options Options) gin.HandlerFunc {
 		tokenGetter = defaultTokenGetter
 	}
 
+	whiteList := options.WhiteListUrl
+	blackList := options.BlackListUrl
+
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		c.Set(csrfSecret, options.Secret)
-
-		if inArray(ignoreMethods, c.Request.Method) {
+		if inArray(whiteList, c.Request.URL.Path) {
 			updateSalt(&session)
 			c.Next()
 			return
+		}
+
+		if !inArray(blackList, c.Request.URL.Path) {
+			if inArray(ignoreMethods, c.Request.Method) {
+				updateSalt(&session)
+				c.Next()
+				return
+			}
 		}
 
 		salt, ok := session.Get(csrfSalt).(string)
