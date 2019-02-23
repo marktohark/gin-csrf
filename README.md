@@ -10,6 +10,10 @@ following condition will update csrf token
 2. token is valid
 3. session have not csrf salt
 
+add whitelist Url and blacklist Url
+whitelist is unconditional valid.
+blacklist is skip "IgnoreMethods" condition and mandatory verification.
+
 ## Installation
 
 ``` bash
